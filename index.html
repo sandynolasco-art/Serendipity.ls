@@ -3,8 +3,28 @@
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+
+  // Consent Mode v2: denegado por defecto ANTES de cualquier config
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied',
+    wait_for_update: 500
+  });
+
+  // Si ya hay consentimiento guardado, se aplica de inmediato
+  (function(){
+    var m = document.cookie.match('(^|;) ?sl_cookie_consent=([^;]*)(;|$)');
+    if(m && m[2] === 'accepted'){
+      gtag('consent', 'update', { analytics_storage: 'granted' });
+    } else {
+      window['ga-disable-G-PHJ63HYJNX'] = true;
+    }
+  })();
+
   gtag('js', new Date());
-  gtag('config', 'G-PHJ63HYJNX');
+  gtag('config', 'G-PHJ63HYJNX', { anonymize_ip: true });
 </script>
 
 <div id="serendipity-linktree">
@@ -110,9 +130,9 @@
         <div class="sl-legal">
           <button type="button" class="sl-legal-btn" id="sl-about-link">Acerca de</button>
           <span aria-hidden="true">·</span>
-          <a href="https://www.laura-sofia.com/politica-de-privacidad/">Privacidad</a>
+          <button type="button" class="sl-legal-btn" id="sl-privacy-btn">Privacidad</button>
           <span aria-hidden="true">·</span>
-          <a href="https://www.laura-sofia.com/terminos-y-condiciones/">Términos</a>
+          <button type="button" class="sl-legal-btn" id="sl-terms-btn">Términos</button>
           <span aria-hidden="true">·</span>
           <button type="button" class="sl-legal-btn" id="sl-cookie-btn">Preferencias de cookies</button>
           <br>
@@ -212,6 +232,63 @@
       <div class="sl-about-foot">
         <a class="sl-btn-dir" href="https://api.whatsapp.com/send/?phone=59162176397&text=Hola%20Serendipity!%20Quiero%20hacer%20un%20pedido" target="_blank" rel="noopener">Hacé tu pedido</a>
       </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PRIVACIDAD -->
+  <div class="sl-modal" id="sl-privacy-modal" role="dialog" aria-modal="true" aria-labelledby="sl-privacy-title" hidden>
+    <div class="sl-backdrop" data-sl-close></div>
+    <div class="sl-panel sl-panel--about">
+      <div class="sl-share-head">
+        <h3 class="sl-modal-title" id="sl-privacy-title">Política de Privacidad</h3>
+        <button class="sl-close-x" type="button" data-sl-close aria-label="Cerrar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="sl-about-body">
+        <p><strong>Responsable:</strong> Serendipity, Santa Cruz de la Sierra, Bolivia.</p>
+        <p><strong>¿Qué datos recopilamos?</strong> Usamos Google Analytics para medir el tráfico de forma anónima. Los datos incluyen páginas visitadas, tiempo de sesión, ciudad aproximada y dispositivo. No recopilamos nombres, emails ni datos personales identificables.</p>
+        <p><strong>¿Para qué los usamos?</strong> Únicamente para entender cómo se usa la página y mejorar la experiencia. No vendemos ni compartimos datos con terceros.</p>
+        <p><strong>Cookies:</strong> Podés aceptar o rechazar las cookies desde el banner o desde "Preferencias de cookies" en el pie de página.</p>
+        <p><strong>Tus derechos:</strong> Podés rechazar las cookies en cualquier momento desde el pie de esta página.</p>
+        <p><strong>Última actualización:</strong> Agosto 2026.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: TÉRMINOS -->
+  <div class="sl-modal" id="sl-terms-modal" role="dialog" aria-modal="true" aria-labelledby="sl-terms-title" hidden>
+    <div class="sl-backdrop" data-sl-close></div>
+    <div class="sl-panel sl-panel--about">
+      <div class="sl-share-head">
+        <h3 class="sl-modal-title" id="sl-terms-title">Términos y Condiciones</h3>
+        <button class="sl-close-x" type="button" data-sl-close aria-label="Cerrar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="sl-about-body">
+        <p><strong>Uso de la página:</strong> Esta es la página de enlaces de Serendipity. El acceso es libre y gratuito.</p>
+        <p><strong>Pedidos:</strong> Los pedidos por WhatsApp o PedidosYa están sujetos a disponibilidad. Serendipity confirma o rechaza pedidos según stock y capacidad del día.</p>
+        <p><strong>Precios:</strong> En bolivianos (BOB), incluyen impuestos y pueden cambiar sin previo aviso.</p>
+        <p><strong>Catálogo de eventos:</strong> El catálogo es referencial. Los precios finales se coordinan directamente con el cliente.</p>
+        <p><strong>Propiedad intelectual:</strong> Las imágenes, el nombre y el logo de Serendipity son propiedad de la marca. Queda prohibida su reproducción sin autorización.</p>
+        <p><strong>Última actualización:</strong> Agosto 2026.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BANNER DE COOKIES -->
+<div id="sl-cookie-banner" class="sl-cb-hidden" role="region" aria-label="Preferencias de cookies">
+  <div class="sl-cb-inner">
+    <p class="sl-cb-text">
+      Usamos cookies de Google Analytics para entender cómo se usa esta página y mejorarla.
+      No recopilamos datos personales identificables.
+      <button type="button" class="sl-cb-link" id="sl-cb-more">Ver política de privacidad</button>
+    </p>
+    <div class="sl-cb-actions">
+      <button type="button" class="sl-cb-btn sl-cb-reject" id="sl-cookie-reject">Rechazar</button>
+      <button type="button" class="sl-cb-btn sl-cb-accept" id="sl-cookie-accept">Aceptar</button>
     </div>
   </div>
 </div>
@@ -361,7 +438,7 @@
 #serendipity-linktree .sl-dots:hover i{background:#6b7280}
 
 /* ===== Pie ===== */
-#serendipity-linktree .sl-footer{text-align:center;margin-top:clamp(34px,8vw,52px)}
+#serendipity-linktree .sl-footer{text-align:center;margin-top:clamp(34px,8vw,52px);position:relative;z-index:3;pointer-events:auto}
 #serendipity-linktree .sl-legal{
   font-size:12px;font-weight:600;line-height:2.2;color:#fff;
 }
@@ -494,11 +571,18 @@
   gap:16px;flex-wrap:wrap;
 }
 #sl-cookie-banner .sl-cb-text{
-  font-size:13px;line-height:1.5;color:rgba(255,255,255,.82);
+  font-size:13px;line-height:1.5;color:#e3eff0;
   margin:0;flex:1 1 280px;
   font-family:'Inter',system-ui,-apple-system,sans-serif;
 }
 #sl-cookie-banner .sl-cb-actions{display:flex;gap:10px;flex-shrink:0}
+#sl-cookie-banner .sl-cb-link{
+  background:none;border:none;padding:0;margin-left:4px;cursor:pointer;
+  font:inherit;color:#d6c099;text-decoration:underline;text-underline-offset:2px;
+  transition:color .2s;
+}
+#sl-cookie-banner .sl-cb-link:hover,
+#sl-cookie-banner .sl-cb-link:focus-visible{color:#fcefd9}
 #sl-cookie-banner .sl-cb-btn{
   padding:9px 20px;border-radius:999px;font-size:13px;font-weight:600;
   cursor:pointer;border:none;font-family:inherit;
@@ -506,12 +590,15 @@
 }
 #sl-cookie-banner .sl-cb-btn:hover{opacity:.85;transform:translateY(-1px)}
 #sl-cookie-banner .sl-cb-reject{
-  background:transparent;color:rgba(255,255,255,.7);
-  border:1px solid rgba(255,255,255,.25);
+  background:transparent;color:#e3eff0;
+  border:1px solid #99a7ac;
 }
+#sl-cookie-banner .sl-cb-reject:hover{border-color:#e3eff0}
 #sl-cookie-banner .sl-cb-accept{
-  background:#c9a227;color:#1a1a1a;
+  background:#d6c099;color:#000000;
 }
+#sl-cookie-banner .sl-cb-accept:hover{background:#fcefd9}
+#sl-cookie-banner .sl-cb-btn:focus-visible{outline:2px solid #d6c099;outline-offset:2px}
 @keyframes sl-slide-up{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
 @media(max-width:480px){
   #sl-cookie-banner .sl-cb-inner{flex-direction:column;align-items:flex-start}
@@ -524,10 +611,12 @@
   var root = document.getElementById('serendipity-linktree');
   if(!root) return;
 
-  var mapModal   = document.getElementById('sl-map-modal');
-  var shareModal = document.getElementById('sl-share-modal');
-  var aboutModal = document.getElementById('sl-about-modal');
-  var modals     = [mapModal, shareModal, aboutModal];
+  var mapModal     = document.getElementById('sl-map-modal');
+  var shareModal   = document.getElementById('sl-share-modal');
+  var aboutModal   = document.getElementById('sl-about-modal');
+  var privacyModal = document.getElementById('sl-privacy-modal');
+  var termsModal   = document.getElementById('sl-terms-modal');
+  var modals       = [mapModal, shareModal, aboutModal, privacyModal, termsModal];
   var iframe     = document.getElementById('sl-map-iframe');
   var list       = document.getElementById('sl-share-list');
   var toast      = document.getElementById('sl-toast');
@@ -618,12 +707,17 @@
     openModal(shareModal);
   }
 
+  function closeAll(){
+    modals.forEach(function(m){ m.hidden = true; });
+    document.body.style.overflow = '';
+  }
   function openModal(modal){
     lastFocus = document.activeElement;
+    closeAll();
     modal.hidden = false;
     document.body.style.overflow = 'hidden';
     var f = modal.querySelector('button, a');
-    if(f) f.focus();
+    if(f) setTimeout(function(){ f.focus(); }, 50);
   }
   function closeModal(modal){
     modal.hidden = true;
@@ -637,14 +731,29 @@
     if(shareBtn){ e.preventDefault(); openShare(shareBtn); return; }
 
     if(e.target.closest('#sl-map-trigger')){
+      e.stopPropagation();
       if(!iframe.getAttribute('src')) iframe.setAttribute('src', MAP_SRC);
       openModal(mapModal); return;
     }
     if(e.target.closest('#sl-about-link')){
+      e.stopPropagation();
       openModal(aboutModal); return;
     }
+    if(e.target.closest('#sl-privacy-btn')){
+      e.stopPropagation();
+      openModal(privacyModal); return;
+    }
+    if(e.target.closest('#sl-terms-btn')){
+      e.stopPropagation();
+      openModal(termsModal); return;
+    }
     var closer = e.target.closest('[data-sl-close]');
-    if(closer) closeModal(closer.closest('.sl-modal'));
+    if(closer){
+      e.stopPropagation();
+      var parentModal = closer.closest('.sl-modal');
+      if(parentModal) closeModal(parentModal);
+      return;
+    }
   });
 
   document.addEventListener('keydown', function(e){
@@ -652,6 +761,24 @@
     for(var i = modals.length - 1; i >= 0; i--){
       if(!modals[i].hidden){ closeModal(modals[i]); return; }
     }
+  });
+
+  // Listeners directos para botones del pie (respaldo del delegado)
+  var aboutBtn2 = document.getElementById('sl-about-link');
+  if(aboutBtn2) aboutBtn2.addEventListener('click', function(e){
+    e.stopPropagation();
+    openModal(aboutModal);
+  });
+
+  var privBtn = document.getElementById('sl-privacy-btn');
+  var termsBtn = document.getElementById('sl-terms-btn');
+  if(privBtn) privBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    openModal(privacyModal);
+  });
+  if(termsBtn) termsBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    openModal(termsModal);
   });
 
   // ── Google Analytics: tracking de clics ──
@@ -692,7 +819,10 @@
   }
   function enableGA(){
     window['ga-disable-'+GA_ID] = false;
-    if(window.gtag) gtag('consent','update',{analytics_storage:'granted'});
+    if(window.gtag){
+      gtag('consent','update',{analytics_storage:'granted'});
+      gtag('event','page_view');
+    }
   }
   function disableGA(){
     window['ga-disable-'+GA_ID] = true;
@@ -701,37 +831,38 @@
   function hideBanner(){ if(banner) banner.classList.add('sl-cb-hidden'); }
   function showBanner(){ if(banner) banner.classList.remove('sl-cb-hidden'); }
 
-  // Verificar consentimiento previo
+  // Estado inicial segun consentimiento previo
   var consent = getCookie(COOKIE_KEY);
   if(consent === 'accepted'){ enableGA(); hideBanner(); }
   else if(consent === 'rejected'){ disableGA(); hideBanner(); }
-  else{ disableGA(); showBanner(); }
+  else { disableGA(); showBanner(); }
 
-  // Botón Aceptar
   var btnAccept = document.getElementById('sl-cookie-accept');
   if(btnAccept) btnAccept.addEventListener('click', function(){
     setCookie(COOKIE_KEY, 'accepted', 365);
     enableGA(); hideBanner();
   });
 
-  // Botón Rechazar
   var btnReject = document.getElementById('sl-cookie-reject');
   if(btnReject) btnReject.addEventListener('click', function(){
-    setCookie(COOKIE_KEY, 'rejected', 30);
+    setCookie(COOKIE_KEY, 'rejected', 180);
     disableGA(); hideBanner();
   });
 
-  // Botón del pie → reabre el panel
+  // Link del banner hacia la politica de privacidad
+  var cbMore = document.getElementById('sl-cb-more');
+  if(cbMore) cbMore.addEventListener('click', function(){
+    openModal(privacyModal);
+  });
+
+  // Boton del pie: reabre el banner para cambiar la eleccion
   var cookieBtn = document.getElementById('sl-cookie-btn');
   if(cookieBtn) cookieBtn.addEventListener('click', function(e){
     e.stopPropagation();
-    setCookie(COOKIE_KEY, '', -1);
+    closeAll();
     showBanner();
-    window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+    if(banner) banner.focus && banner.focus();
   });
-
-  // Modo consentimiento GA4 por defecto denegado
-  if(window.gtag) gtag('consent','default',{analytics_storage:'denied'});
 
 })();
 </script>
